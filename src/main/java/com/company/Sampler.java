@@ -13,11 +13,25 @@ import java.util.TimerTask;
 
 public class Sampler {
     private int globalTimer = 0;
-
-
-
+    private final String processName;
 
     public Sampler(String processName) throws IOException {
+        this.processName = processName;
+    }
+
+    public Double getCpuPercentage() {
+        return null;
+    }
+
+    public Double getPrivateMemory() {
+        return null;
+    }
+
+    public Double getNumberOfFileDescriptors() {
+        return null;
+    }
+
+    private void whatDanDid() {
         Timer timer = new Timer();
 
         timer.schedule(new TimerTask() {
@@ -51,18 +65,6 @@ public class Sampler {
 //                }
             }
         }, 0, 1000);
-    }
-
-    public Double getCpuPercentage() {
-        return null;
-    }
-
-    public Double getPrivateMemory() {
-        return null;
-    }
-
-    public Double getNumberOfFileDescriptors() {
-        return null;
     }
 }
 
