@@ -5,6 +5,8 @@ import java.time.Instant;
 
 public class Memory {
 
+    public void memoryConsuption(){
+
     long startTime = System.currentTimeMillis();
         System.out.println("Hello");
 

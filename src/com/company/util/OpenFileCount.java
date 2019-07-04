@@ -5,13 +5,15 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import com.sun.management.UnixOperatingSystemMXBean;
 
-class OpenFileCount{
-    public static void main(String[] args){
+public class OpenFileCount{
+    public static void fileCount(){
         OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();
         if(os instanceof UnixOperatingSystemMXBean){
             System.out.println("Number of open file descriptors: " + ((UnixOperatingSystemMXBean) os).getOpenFileDescriptorCount());
         }
+    }
+    public static void methodHandles(){
         MethodHandles.Lookup lookup = MethodHandles.lookup();
-        return lookup;
+            System.out.println(lookup);
     }
 }

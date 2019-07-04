@@ -7,9 +7,9 @@ import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 
-class CPUTimer
+public class CPUTimer
 {
-    public static double getProcessCpuLoad() throws Exception {
+    public static double processCpuLoad() throws Exception {
 
         MBeanServer mbs    = ManagementFactory.getPlatformMBeanServer();
         ObjectName name    = ObjectName.getInstance("java.lang:type=OperatingSystem");
