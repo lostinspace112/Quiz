@@ -51,9 +51,9 @@ public class RunDuration {
                 }
 
                 System.out.println("running");
-                if (globalTimer == totalSecs) {
-                    timer.cancel();
-                }
+//                if (globalTimer == totalSecs) {
+//                    timer.cancel();
+//                }
             }
         }, 0, 1000);
     }
