@@ -11,20 +11,15 @@ import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class RunDuration {
+public class Sampler {
     private int globalTimer = 0;
-    public static void main(String[] args) throws IOException {
-        new RunDuration();
-    }
-    public RunDuration() throws IOException {
+
+
+
+
+    public Sampler(String processName) throws IOException {
         Timer timer = new Timer();
-        Scanner limitTimer = new Scanner(System.in);
-        double totalSecs, samplerSecs;
-        System.out.println("Enter number of run seconds: ");
-        totalSecs = limitTimer.nextInt();
-        Scanner sampler = new Scanner(System.in);
-        System.out.println("Enter number of seconds for sampler: ");
-        samplerSecs = limitTimer.nextInt();
+
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -56,6 +51,18 @@ public class RunDuration {
 //                }
             }
         }, 0, 1000);
+    }
+
+    public Double getCpuPercentage() {
+        return null;
+    }
+
+    public Double getPrivateMemory() {
+        return null;
+    }
+
+    public Double getNumberOfFileDescriptors() {
+        return null;
     }
 }
 
