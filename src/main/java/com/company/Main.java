@@ -1,6 +1,5 @@
 package com.company;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -9,7 +8,7 @@ import static com.company.util.MemoryLeakChecker.*;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         int totalSecs, samplerSecs;
         String processName;
 
@@ -19,7 +18,7 @@ public class Main {
         System.out.println("Enter number of seconds for sampler: ");
         samplerSecs = scanner.nextInt();
         System.out.println("Enter process name: ");
-        processName = scanner.nextLine();
+        processName = scanner.toString();
 
         Instant now = Instant.now();
         Instant sampleCheckpoint = now.plusSeconds(samplerSecs);
@@ -59,11 +58,9 @@ public class Main {
         Double averageFileDescriptors = numberOfFileDescriptors.stream().mapToDouble(val -> val).average().orElse(0.0);
         Double averagePrivateMemory = privateMemories.stream().mapToDouble(val -> val).average().orElse(0.0);
 
-        System.out.println(averageCpuUsage);
-        System.out.println(averageFileDescriptors);
-        System.out.println(averagePrivateMemory);
-
-
+        System.out.println("The average cpu usage is " + averageCpuUsage);
+        System.out.println("The average number of File descriptors " + averageFileDescriptors);
+        System.out.println("The average use of memory " + averagePrivateMemory);
 
     }
 }

@@ -1,70 +1,49 @@
 package com.company;
 
-import com.company.util.CPUTimer;
-import com.company.util.Memory;
-import com.company.util.OpenFileCount;
+import com.sun.management.UnixOperatingSystemMXBean;
 
-import java.io.BufferedReader;
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
 
 public class Sampler {
-    private int globalTimer = 0;
+
     private final String processName;
 
     public Sampler(String processName) throws IOException {
         this.processName = processName;
     }
 
-    public Double getCpuPercentage() {
-        return null;
+    public Double getCpuPercentage() throws Exception {
+        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        ObjectName name = ObjectName.getInstance("java.lang:type=OperatingSystem");
+        AttributeList list = mbs.getAttributes(name, new String[]{"ProcessCpuLoad"});
+
+        if (list.isEmpty()) return Double.NaN;
+
+        Attribute att = (Attribute) list.get(0);
+        Double value = (Double) att.getValue();
+
+        // usually takes a couple of seconds before we get real values
+        if (value == -1.0) return Double.NaN;
+        // returns a percentage value with 1 decimal point precision
+        return ((int) (value * 1000) / 10.0);
     }
 
     public Double getPrivateMemory() {
-        return null;
+        Runtime r = Runtime.getRuntime();
+        Double g = Double.valueOf((r.totalMemory() - r.freeMemory()));
+       return g;
     }
 
     public Double getNumberOfFileDescriptors() {
-        return null;
-    }
-
-    private void whatDanDid() {
-        Timer timer = new Timer();
-
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                globalTimer++;
-                try {
-                    String process;
-                    Process p = Runtime.getRuntime().exec("ps -few");
-                    BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                    Scanner samplingInterval = new Scanner(System.in);
-                    while ((process = input.readLine()) != null) ;
-                    {
-                        System.out.println(process);
-                        CPUTimer getProcessCpuLoad = new CPUTimer();
-                        getProcessCpuLoad.processCpuLoad();
-                        OpenFileCount newFileCount = new OpenFileCount();
-                        newFileCount.fileCount();
-                        newFileCount.methodHandles();
-                        Memory newMmoryConsumption = new Memory();
-                        newMmoryConsumption.memoryConsuption();
-                    }
-                    input.close();
-                } catch (Exception err) {
-                    err.printStackTrace();
-                }
-
-                System.out.println("running");
-//                if (globalTimer == totalSecs) {
-//                    timer.cancel();
-//                }
-            }
-        }, 0, 1000);
+        OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();
+        Double gg = Double.valueOf(((UnixOperatingSystemMXBean) os).getOpenFileDescriptorCount());
+        return gg;
     }
 }
 
